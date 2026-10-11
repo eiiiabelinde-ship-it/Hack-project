@@ -4,216 +4,451 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>System Compromised</title>
+<meta name="theme-color" content="#030303">
+<title>ROOT ACCESS // SYSTEM OVERRIDE</title>
 
 <style>
+:root {
+  --red: #ff1838;
+  --green: #00ff9c;
+  --bg: #030505;
+  --panel: #080d0d;
+  --muted: #657574;
+}
 * { box-sizing: border-box; }
 
 html, body {
   margin: 0;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #050000;
-  color: #ff2020;
-  font-family: "Courier New", monospace;
-  cursor: none;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--green);
+  font-family: Consolas, "Courier New", monospace;
 }
+
+body { overflow: hidden; }
 
 #screen {
   position: fixed;
   inset: 0;
   overflow: hidden;
-  padding: 24px;
-  border: 3px solid red;
+  padding: 18px;
+  border: 1px solid #263a36;
   background:
-    repeating-linear-gradient(
-      transparent 0px,
-      transparent 3px,
-      #ff000008 4px
-    ),
-    radial-gradient(ellipse, #270000, #020000 85%);
-  animation: glow 0.7s infinite alternate;
+    linear-gradient(#00ff9c08 1px, transparent 1px),
+    linear-gradient(90deg, #00ff9c08 1px, transparent 1px),
+    radial-gradient(ellipse at 50% 35%, #10201c, #030505 75%);
+  background-size: 32px 32px, 32px 32px, auto;
 }
 
-@keyframes glow {
-  from { box-shadow: inset 0 0 20px #700000; }
-  to { box-shadow: inset 0 0 70px #ff000077; }
+#screen::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: repeating-linear-gradient(
+    transparent 0px,
+    transparent 3px,
+    #00000035 4px
+  );
 }
 
-.blink {
-  animation: blink 0.55s steps(2, start) infinite;
-}
-
-@keyframes blink {
-  to { opacity: 0; }
-}
-
-header {
+.topbar {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
+  align-items: center;
   gap: 10px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid red;
-  font-size: 12px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #234239;
+  padding: 0 0 13px;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.brand { color: white; }
+.red { color: var(--red); }
+.green { color: var(--green); }
+.dim { color: var(--muted); }
+
+.pulse { animation: blink .8s steps(2,end) infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+
+.hero {
+  text-align: center;
+  padding: 22px 0 15px;
+}
+
+.eyebrow {
+  color: var(--red);
+  letter-spacing: 5px;
+  font-size: 11px;
 }
 
 h1 {
-  font-size: clamp(30px, 6vw, 76px);
-  text-align: center;
-  text-shadow: 0 0 25px red;
-  margin: 5vh 0 10px;
+  font-size: clamp(30px, 6vw, 72px);
+  margin: 10px 0;
+  letter-spacing: 3px;
+  color: #f4fff9;
+  text-shadow: 0 0 15px #00ff9c55, 0 0 40px #00ff9c20;
 }
 
 .subtitle {
-  text-align: center;
+  color: var(--red);
+  font-size: clamp(10px, 2vw, 15px);
   letter-spacing: 4px;
-  font-size: clamp(10px, 2vw, 18px);
 }
 
-.warning {
-  border: 2px solid red;
-  padding: 16px;
-  margin: 25px auto;
-  max-width: 850px;
+.alert {
+  max-width: 900px;
+  margin: 8px auto 16px;
+  border: 1px solid var(--red);
+  background: #24070b9c;
+  box-shadow: inset 0 0 24px #ff183811, 0 0 16px #ff183815;
+  padding: 14px 18px;
   text-align: center;
-  background: #40000055;
 }
 
-.warning h2 {
-  font-size: clamp(17px, 3vw, 32px);
+.alert-title {
+  color: var(--red);
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: clamp(14px, 2.6vw, 22px);
 }
 
-.warning p {
-  margin: 8px;
+.alert p {
+  margin: 9px 0 0;
+  font-size: 12px;
+  color: #ffb4bd;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 12px;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.panel {
+  min-width: 0;
+  border: 1px solid #203b32;
+  background: #060a0ad9;
+  padding: 12px;
+}
+
+.panel-head {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #b4c9c2;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #203b32;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 12px 0;
+  font-size: 11px;
+}
+
+.value { color: white; }
+
+.progress {
+  height: 5px;
+  margin: 8px 0 14px;
+  background: #17221f;
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+  animation: load 3s ease-in-out infinite alternate;
+}
+
+.progress.redbar span {
+  background: var(--red);
+  box-shadow: 0 0 10px var(--red);
+  animation-duration: 2s;
+}
+
+@keyframes load {
+  from { width: 12%; }
+  to { width: 96%; }
 }
 
 #logs {
-  height: 30vh;
+  height: 210px;
   overflow: hidden;
-  border-top: 1px solid #680000;
-  padding: 10px;
-  font-size: clamp(10px, 1.5vw, 14px);
-  line-height: 1.65;
+  font-size: 11px;
+  line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
-.status {
-  color: #ff7777;
-}
+.logline { color: #80bca8; }
+.logline:nth-child(3n) { color: var(--green); }
+.logline:nth-child(4n) { color: #ff687b; }
 
-.footer {
-  position: absolute;
-  bottom: 12px;
-  left: 0;
+#matrix {
+  display: block;
   width: 100%;
-  text-align: center;
-  font-size: 10px;
-  color: #777;
+  height: 100px;
+  background: #030806;
+  margin-bottom: 12px;
 }
 
-@media (max-height: 650px) {
-  h1 { margin-top: 2vh; }
-  .warning { margin: 12px auto; padding: 8px; }
-  .warning p { margin: 4px; }
-  #logs { height: 25vh; }
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px 2px 0;
+  border-top: 1px solid #203b32;
+  color: #71867e;
+  font-size: 10px;
+}
+
+.corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--red);
+  z-index: 2;
+}
+.c1 { top: 6px; left: 6px; border-top: 2px solid; border-left: 2px solid; }
+.c2 { top: 6px; right: 6px; border-top: 2px solid; border-right: 2px solid; }
+.c3 { bottom: 6px; left: 6px; border-bottom: 2px solid; border-left: 2px solid; }
+.c4 { bottom: 6px; right: 6px; border-bottom: 2px solid; border-right: 2px solid; }
+
+#boot {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  padding: 24px;
+  background: #020403;
+  color: var(--green);
+  font-size: 13px;
+  line-height: 1.9;
+  animation: bootout 1s ease 3s forwards;
+  pointer-events: none;
+}
+
+@keyframes bootout {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@media (max-width: 760px) {
+  body { overflow: auto; }
+  #screen {
+    position: relative;
+    min-height: 100vh;
+    overflow: auto;
+    padding: 14px;
+  }
+  .grid { grid-template-columns: 1fr; }
+  .hero { padding-top: 20px; }
+  .panel { min-height: 130px; }
+  #logs { height: 180px; }
+  .bottom { padding-bottom: 18px; }
+}
+@media (max-height: 760px) and (min-width: 761px) {
+  .hero { padding: 12px 0 8px; }
+  h1 { margin: 6px 0; }
+  .alert { padding: 9px; margin-bottom: 10px; }
+  .alert p { margin-top: 5px; }
+  .panel { padding: 9px; }
+  #logs { height: 155px; }
 }
 </style>
 </head>
 
 <body>
-<div id="screen">
+<div id="boot">
+  <div>
+    <div>[ BIOS ] INITIALIZING SECURE CONNECTION...</div>
+    <div>[ CORE ] LOADING ENCRYPTION MODULES...</div>
+    <div>[ AUTH ] PRIVILEGE ESCALATION REQUESTED...</div>
+    <div>[ ROOT ] ACCESS GRANTED <span class="pulse">█</span></div>
+    <div class="red">[ WARN ] SECURITY BOUNDARY OVERRIDDEN</div>
+    <div>ESTABLISHING CONTROL INTERFACE...</div>
+  </div>
+</div>
 
-  <header>
-    <span>⚠ SYSTEM BREACH SIMULATOR</span>
-    <span class="blink">● CRITICAL ALERT</span>
+<div id="screen">
+  <i class="corner c1"></i>
+  <i class="corner c2"></i>
+  <i class="corner c3"></i>
+  <i class="corner c4"></i>
+
+  <header class="topbar">
+    <span class="brand">NIGHTFALL <span class="dim">//</span> <span class="red">ROOT TERMINAL</span></span>
+    <span class="red pulse">● INTRUSION DETECTED</span>
     <span id="clock">00:00:00</span>
   </header>
 
-  <h1 class="blink">SYSTEM COMPROMISED</h1>
+  <section class="hero">
+    <div class="eyebrow">REMOTE ACCESS // PRIVILEGE LEVEL 0</div>
+    <h1 class="pulse">SYSTEM OVERRIDDEN</h1>
+    <div class="subtitle">YOU ARE NO LONGER IN CONTROL</div>
+  </section>
 
-  <div class="subtitle">
-    UNAUTHORIZED ACCESS DETECTED
-  </div>
+  <section class="alert">
+    <div class="alert-title pulse">⚠ COMPLETE SYSTEM ACCESS ESTABLISHED ⚠</div>
+    <p>USER CREDENTIALS // PERSONAL FILES // BROWSER HISTORY // NETWORK RECORDS</p>
+    <p class="red">SECURITY STATUS: CRITICAL — RESPONSE WINDOW EXPIRED</p>
+  </section>
 
-  <div class="warning">
-    <h2 class="blink">⚠ YOUR DATA HAS BEEN COLLECTED ⚠</h2>
-    <p>Passwords: <span class="status">[SIMULATED]</span></p>
-    <p>Personal files: <span class="status">[SIMULATED]</span></p>
-    <p>Browser history and links: <span class="status">[SIMULATED]</span></p>
-    <p>Network status: <span class="status">COMPROMISED</span></p>
-    <p class="blink">WARNING: DO NOT SHUT DOWN YOUR SYSTEM</p>
-  </div>
+  <section class="grid">
+    <div class="panel">
+      <div class="panel-head">[ SYSTEM RECONNAISSANCE ]</div>
+      <div class="stat"><span>Privilege level</span><span class="value">ROOT</span></div>
+      <div class="stat"><span>Security perimeter</span><span class="red">BREACHED</span></div>
+      <div class="stat"><span>Access control</span><span class="red">OVERRIDDEN</span></div>
+      <div class="stat"><span>Encryption status</span><span class="value">ACTIVE</span></div>
+      <div class="panel-head">[ ACCESS PROGRESSION ]</div>
+      <div class="progress redbar"><span></span></div>
+      <div class="stat"><span>Privilege escalation</span><span class="green">COMPLETE</span></div>
+      <div class="progress"><span></span></div>
+    </div>
 
-  <div id="logs"></div>
+    <div class="panel">
+      <div class="panel-head">[ LIVE TERMINAL OUTPUT ]</div>
+      <div id="logs"></div>
+    </div>
 
-  <div class="footer">
-    ALL YOUR DATA HAS BEEN COLLECTED
-  </div>
+    <div class="panel">
+      <div class="panel-head">[ DATA EXTRACTION STATUS ]</div>
+      <div class="stat"><span>Credential index</span><span class="red">ACCESSED</span></div>
+      <div class="progress redbar"><span></span></div>
+      <div class="stat"><span>Personal directory</span><span class="red">MAPPED</span></div>
+      <div class="progress"><span></span></div>
+      <div class="stat"><span>Browser records</span><span class="red">INDEXED</span></div>
+      <div class="progress redbar"><span></span></div>
+      <div class="stat"><span>Remote channel</span><span class="green">CONNECTED</span></div>
+      <canvas id="matrix"></canvas>
+    </div>
+  </section>
 
+  <footer class="bottom">
+    <span>SESSION: <span id="session">NF-000000</span></span>
+    <span class="red pulse">UNAUTHORIZED SESSION ACTIVE</span>
+    <span>ENCRYPTION: AES-256 // PROTOCOL: TLS</span>
+    <span id="uptime">UPTIME: 00:00</span>
+  </footer>
 </div>
 
 <script>
-const logBox = document.getElementById("logs");
+const $ = id => document.getElementById(id);
+const logs = $("logs");
 
 const messages = [
-  "[SYS] Initializing simulated intrusion...",
-  "[NET] Scanning virtual network nodes...",
-  "[AUTH] Password database detected: SIMULATED",
-  "[DATA] Browser records: SIMULATED",
-  "[WARN] Security breach detected!",
-  "[SCAN] Searching virtual directories...",
-  "[DATA] Personal files: SIMULATED",
-  "[LINK] Browser links: SIMULATED",
-  "[SYS] Virtual remote session initialized...",
-  "[WARN] CRITICAL: SYSTEM COMPROMISED",
-  "[AUTH] Credentials: FAKE DISPLAY ONLY",
-  "[NET] Dummy upload initialized: NO NETWORK REQUEST",
-  "[SYS] Monitoring fictional system activity...",
-  "[WARN] Unauthorized access detected!",
-  "[DATA] Collection status: SIMULATED",
-  "[SYS] Maintaining visual simulation..."
+  ["CORE", "Initializing privileged execution environment"],
+  ["AUTH", "Authentication boundary bypassed"],
+  ["NODE", "Mapping active network interfaces"],
+  ["CRYPT", "Negotiating encrypted session parameters"],
+  ["SCAN", "Enumerating system service endpoints"],
+  ["ACCESS", "Elevated permission context established"],
+  ["INDEX", "Cataloging directory metadata"],
+  ["TRACE", "Analyzing available connection routes"],
+  ["WARN", "Unusual authentication activity detected"],
+  ["CORE", "Maintaining persistent session context"],
+  ["DATA", "Indexing browser record structures"],
+  ["NET", "Verifying secure channel integrity"],
+  ["SYS", "Monitoring system response metrics"],
+  ["AUTH", "Privilege state synchronized"],
+  ["CRYPT", "Rotating session key parameters"],
+  ["SCAN", "Refreshing environment inventory"]
 ];
 
 let i = 0;
+const start = Date.now();
 
 function addLog() {
+  const entry = messages[i % messages.length];
   const line = document.createElement("div");
-  line.textContent =
-    "[" + new Date().toLocaleTimeString() + "] " +
-    messages[i % messages.length];
+  line.className = "logline";
 
-  logBox.appendChild(line);
+  const time = new Date().toLocaleTimeString();
+  line.textContent = `[${time}] [${entry[0]}] ${entry[1]}...`;
 
-  while (logBox.children.length > 9) {
-    logBox.removeChild(logBox.firstChild);
+  logs.appendChild(line);
+  while (logs.children.length > 9) {
+    logs.removeChild(logs.firstChild);
   }
-
   i++;
 }
 
-setInterval(addLog, 500);
-addLog();
+setInterval(addLog, 430);
+for (let n = 0; n < 7; n++) addLog();
 
 setInterval(() => {
-  document.getElementById("clock").textContent =
-    new Date().toLocaleTimeString();
+  $("clock").textContent = new Date().toLocaleTimeString();
+  const elapsed = Math.floor((Date.now() - start) / 1000);
+  $("uptime").textContent =
+    "UPTIME: " +
+    String(Math.floor(elapsed / 60)).padStart(2, "0") + ":" +
+    String(elapsed % 60).padStart(2, "0");
 }, 1000);
 
-// Request fullscreen after the first user interaction.
-// Browsers block automatic fullscreen without user permission.
-document.addEventListener("click", async () => {
-  try {
-    if (!document.fullscreenElement) {
-      await document.documentElement.requestFullscreen();
+$("session").textContent =
+  "NF-" + Math.random().toString(16).slice(2, 8).toUpperCase();
+
+// Animated green data-rain visual.
+const canvas = $("matrix");
+const ctx = canvas.getContext("2d");
+const chars = "01ABCDEF<>[]{}#$%";
+let drops = [];
+
+function resizeCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+  canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  drops = Array(Math.ceil(rect.width / 10)).fill(0);
+}
+
+function drawMatrix() {
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  ctx.fillStyle = "rgba(3, 8, 6, 0.15)";
+  ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = "#00ff9c";
+  ctx.font = "10px monospace";
+
+  for (let x = 0; x < drops.length; x++) {
+    const char = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(char, x * 10, drops[x] * 11);
+    if (drops[x] * 11 > h && Math.random() > 0.96) {
+      drops[x] = 0;
     }
-  } catch (e) {
-    // The visual simulation continues if fullscreen is unavailable.
+    drops[x]++;
+  }
+  requestAnimationFrame(drawMatrix);
+}
+
+resizeCanvas();
+drawMatrix();
+window.addEventListener("resize", resizeCanvas);
+
+// Fullscreen is browser-controlled and requires a user gesture.
+// Click once to request it.
+document.addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.().catch(() => {});
   }
 }, { once: true });
-
-// Optional: press F11 for browser fullscreen on desktop.
 </script>
 </body>
 </html>
