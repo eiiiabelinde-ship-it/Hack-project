@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Compromised</title>
+
+<style>
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050000;
+  color: #ff2020;
+  font-family: "Courier New", monospace;
+  cursor: none;
+}
+
+#screen {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  padding: 24px;
+  border: 3px solid red;
+  background:
+    repeating-linear-gradient(
+      transparent 0px,
+      transparent 3px,
+      #ff000008 4px
+    ),
+    radial-gradient(ellipse, #270000, #020000 85%);
+  animation: glow 0.7s infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: inset 0 0 20px #700000; }
+  to { box-shadow: inset 0 0 70px #ff000077; }
+}
+
+.blink {
+  animation: blink 0.55s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to { opacity: 0; }
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid red;
+  font-size: 12px;
+}
+
+h1 {
+  font-size: clamp(30px, 6vw, 76px);
+  text-align: center;
+  text-shadow: 0 0 25px red;
+  margin: 5vh 0 10px;
+}
+
+.subtitle {
+  text-align: center;
+  letter-spacing: 4px;
+  font-size: clamp(10px, 2vw, 18px);
+}
+
+.warning {
+  border: 2px solid red;
+  padding: 16px;
+  margin: 25px auto;
+  max-width: 850px;
+  text-align: center;
+  background: #40000055;
+}
+
+.warning h2 {
+  font-size: clamp(17px, 3vw, 32px);
+}
+
+.warning p {
+  margin: 8px;
+}
+
+#logs {
+  height: 30vh;
+  overflow: hidden;
+  border-top: 1px solid #680000;
+  padding: 10px;
+  font-size: clamp(10px, 1.5vw, 14px);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.status {
+  color: #ff7777;
+}
+
+.footer {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  color: #777;
+}
+
+@media (max-height: 650px) {
+  h1 { margin-top: 2vh; }
+  .warning { margin: 12px auto; padding: 8px; }
+  .warning p { margin: 4px; }
+  #logs { height: 25vh; }
+}
+</style>
+</head>
+
+<body>
+<div id="screen">
+
+  <header>
+    <span>⚠ SYSTEM BREACH SIMULATOR</span>
+    <span class="blink">● CRITICAL ALERT</span>
+    <span id="clock">00:00:00</span>
+  </header>
+
+  <h1 class="blink">SYSTEM COMPROMISED</h1>
+
+  <div class="subtitle">
+    UNAUTHORIZED ACCESS DETECTED
+  </div>
+
+  <div class="warning">
+    <h2 class="blink">⚠ YOUR DATA HAS BEEN COLLECTED ⚠</h2>
+    <p>Passwords: <span class="status">[SIMULATED]</span></p>
+    <p>Personal files: <span class="status">[SIMULATED]</span></p>
+    <p>Browser history and links: <span class="status">[SIMULATED]</span></p>
+    <p>Network status: <span class="status">COMPROMISED</span></p>
+    <p class="blink">WARNING: DO NOT SHUT DOWN YOUR SYSTEM</p>
+  </div>
+
+  <div id="logs"></div>
+
+  <div class="footer">
+    CINEMATIC SIMULATION • NO REAL DATA ACCESS
+  </div>
+
+</div>
+
+<script>
+const logBox = document.getElementById("logs");
+
+const messages = [
+  "[SYS] Initializing simulated intrusion...",
+  "[NET] Scanning virtual network nodes...",
+  "[AUTH] Password database detected: SIMULATED",
+  "[DATA] Browser records: SIMULATED",
+  "[WARN] Security breach detected!",
+  "[SCAN] Searching virtual directories...",
+  "[DATA] Personal files: SIMULATED",
+  "[LINK] Browser links: SIMULATED",
+  "[SYS] Virtual remote session initialized...",
+  "[WARN] CRITICAL: SYSTEM COMPROMISED",
+  "[AUTH] Credentials: FAKE DISPLAY ONLY",
+  "[NET] Dummy upload initialized: NO NETWORK REQUEST",
+  "[SYS] Monitoring fictional system activity...",
+  "[WARN] Unauthorized access detected!",
+  "[DATA] Collection status: SIMULATED",
+  "[SYS] Maintaining visual simulation..."
+];
+
+let i = 0;
+
+function addLog() {
+  const line = document.createElement("div");
+  line.textContent =
+    "[" + new Date().toLocaleTimeString() + "] " +
+    messages[i % messages.length];
+
+  logBox.appendChild(line);
+
+  while (logBox.children.length > 9) {
+    logBox.removeChild(logBox.firstChild);
+  }
+
+  i++;
+}
+
+setInterval(addLog, 500);
+addLog();
+
+setInterval(() => {
+  document.getElementById("clock").textContent =
+    new Date().toLocaleTimeString();
+}, 1000);
+
+// Request fullscreen after the first user interaction.
+// Browsers block automatic fullscreen without user permission.
+document.addEventListener("click", async () => {
+  try {
+    if (!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen();
+    }
+  } catch (e) {
+    // The visual simulation continues if fullscreen is unavailable.
+  }
+}, { once: true });
+
+// Optional: press F11 for browser fullscreen on desktop.
+</script>
+</body>
+</html>
